@@ -11,7 +11,7 @@ interface Props {
 }
 
 export async function generateMetadata({ searchParams }: Props): Promise<Metadata> {
-    const currentPage = Number(searchParams.page) || 1;
+    const currentPage = Number(searchParams?.page) || 1;
 
     return {
         title: `Pokémon List - Page ${currentPage}`,
@@ -20,7 +20,7 @@ export async function generateMetadata({ searchParams }: Props): Promise<Metadat
 }
 
 export default async function PokemonPage({ searchParams }: Props) {
-    const currentPage = Number(searchParams.page) || 1;
+    const currentPage = Number(searchParams?.page) || 1;
     const itemsPerPage = 20;
     const totalItems = 1000;
     return (
