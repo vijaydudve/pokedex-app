@@ -10,8 +10,8 @@ interface Props {
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   return {
-    title: `Pokémon #${params.id} Details`,
-    description: `Detailed information about Pokémon #${params.id}`,
+    title: `Pokémon #${params?.id} Details`,
+    description: `Detailed information about Pokémon #${params?.id}`,
   };
 }
 
@@ -38,9 +38,9 @@ export async function generateStaticParams() {
 export default async function PokemonDetailPage({ params }: Props) {
   return (
     <>
-      <DetailPageURLUpdate pokemonId={params.id} pokemonName={params.name} />
+      <DetailPageURLUpdate pokemonId={params?.id} pokemonName={params?.name} />
       <Suspense fallback={<PokemonDetailsLoader />}>
-        <PokemonDetails pokemonId={params.id} />
+        <PokemonDetails pokemonId={params?.id} />
       </Suspense>
     </>
   );
