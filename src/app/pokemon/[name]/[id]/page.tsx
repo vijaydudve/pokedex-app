@@ -5,7 +5,7 @@ import { Metadata } from 'next';
 import { Suspense } from 'react';
 
 interface Props {
-  params: { id: string, name: string }
+  params: { id: string; name: string };
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
@@ -15,12 +15,31 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   };
 }
 
+interface Pokemon {
+  name: string;
+  url: string;
+}
+
+async function fetchPokemonList(): Promise<Pokemon[]> {
+  const response = await fetch('https://pokeapi.co/api/v2/pokemon?limit=151');
+  const data = await response.json();
+  return data.results;
+}
+
+export async function generateStaticParams() {
+  const pokemonList = await fetchPokemonList();
+
+  return pokemonList.map((pokemon: Pokemon, index: number) => ({
+    id: (index + 1).toString(),
+    name: pokemon.name,
+  }));
+}
 
 export default async function PokemonDetailPage({ params }: Props) {
   return (
     <>
       <DetailPageURLUpdate pokemonId={params.id} pokemonName={params.name} />
-      <Suspense fallback={<PokemonDetailsLoader/>}>
+      <Suspense fallback={<PokemonDetailsLoader />}>
         <PokemonDetails pokemonId={params.id} />
       </Suspense>
     </>
